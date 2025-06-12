@@ -9,7 +9,7 @@ import os
 
 filterwarnings('ignore')
 
-st.title("Financial Advisor Chatbot")
+st.title("FinBot 2.0")
 
 
 @st.cache_resource
