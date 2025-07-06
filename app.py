@@ -9,7 +9,7 @@ import os
 
 filterwarnings('ignore')
 
-st.title("FinBot 2.0")
+st.title("Financial Advisor Chatbot")
 
 
 @st.cache_resource
@@ -31,6 +31,10 @@ def get_data(alloc_file, financ_file):
 with st.sidebar:
     data_ready = False
     api_key = st.text_input("OpenAI API key", type="password")
+    
+   
+    if api_key:
+        os.environ["OPENAI_API_KEY"] = api_key
 
     alloc_file = st.file_uploader("Upload target allocations file")
     financ_file = st.file_uploader("Upload financial data file")
