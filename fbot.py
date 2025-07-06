@@ -3,7 +3,7 @@ from langchain.prompts import PromptTemplate
 from langchain_community.callbacks import get_openai_callback
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric
-
+import unicodedata
 
 class FinancialChatbot:
     def __init__(
@@ -39,6 +39,8 @@ class FinancialChatbot:
             Think as you want, but provide only the final answer
             """
         )
+    def _sanitize(self,text):
+        return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
 
     def _get_llm(self, model_name, api_key):
         return ChatOpenAI(model=model_name, temperature=0.0, api_key=api_key)
@@ -50,7 +52,7 @@ class FinancialChatbot:
         context = {
             "portfolio_data": self.df_financial.to_string(),
             "target_allocations": self.df_alloc.to_string(),
-            "question": question,
+            "question":self._sanitize(question),
         }
 
         with get_openai_callback() as cb:
